@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Moonflower Landscaping — Memphis, TN</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet"/>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --navy: #0d1b2a; --cream: #f5f0e8; --gold: #d4a84b;
+      --green: #2d6a4f; --green-light: #52b788;
+      --lavender: #b8c0e0; --lavender-light: #dce0f0;
+      --white: #ffffff; --text-dark: #1a1a2e; --text-mid: #3d3d5c;
+    }
+    body { font-family: 'Lato', sans-serif; background: var(--cream); color: var(--text-dark); }
+    nav { background: var(--navy); display: flex; align-items: center; justify-content: space-between; padding: 0 1.5rem; height: 68px; position: sticky; top: 0; z-index: 100; border-bottom: 2px solid var(--gold); }
+    .logo-area { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+    .logo-text { font-family: 'Playfair Display', serif; color: var(--lavender-light); font-size: 14px; font-weight: 600; line-height: 1.2; }
+    .logo-text span { display: block; color: var(--gold); font-size: 9px; font-family: 'Lato', sans-serif; font-weight: 300; letter-spacing: 2px; text-transform: uppercase; }
+    .nav-links { display: flex; list-style: none; }
+    .nav-links li a { display: block; padding: 0 1rem; height: 68px; line-height: 68px; color: var(--lavender); text-decoration: none; font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 700; border-bottom: 3px solid transparent; cursor: pointer; transition: all 0.2s; }
+    .nav-links li a:hover, .nav-links li a.active { color: var(--white); border-bottom: 3px solid var(--gold); }
+    .nav-cta { background: var(--gold) !important; color: var(--navy) !important; border-radius: 4px; margin-left: 6px; border-bottom: none !important; }
+    .nav-cta:hover { background: #e8b85a !important; border-bottom: none !important; }
+    .page { display: none; }
+    .page.active { display: block; }
+
+    .hero { background: var(--navy); min-height: 460px; display: flex; align-items: center; justify-content: center; padding: 3rem 2rem; text-align: center; }
+    .hero-badge { display: inline-block; background: rgba(180,192,224,0.15); border: 1px solid var(--lavender); color: var(--lavender); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; padding: 5px 14px; border-radius: 20px; margin-bottom: 1.4rem; }
+    .hero h1 { font-family: 'Playfair Display', serif; font-size: 40px; font-weight: 700; color: var(--white); line-height: 1.2; margin-bottom: 1rem; }
+    .hero h1 em { color: var(--gold); font-style: normal; }
+    .hero p { color: var(--lavender-light); font-size: 15px; line-height: 1.7; margin-bottom: 1.8rem; font-weight: 300; max-width: 560px; }
+    .hero-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .btn-primary { background: var(--gold); color: var(--navy); border: none; padding: 12px 26px; font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; border-radius: 4px; cursor: pointer; font-family: 'Lato', sans-serif; transition: all 0.2s; }
+    .btn-primary:hover { background: #e8b85a; }
+    .btn-outline { background: transparent; color: var(--lavender-light); border: 1.5px solid var(--lavender); padding: 12px 26px; font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; border-radius: 4px; cursor: pointer; font-family: 'Lato', sans-serif; transition: all 0.2s; }
+    .btn-outline:hover { border-color: var(--white); color: var(--white); }
+
+    .client-band { background: var(--gold); padding: 1rem 2rem; display: flex; justify-content: center; align-items: center; gap: 2rem; flex-wrap: wrap; }
+    .client-pill { display: flex; align-items: center; gap: 8px; }
+    .client-pill-icon { width: 32px; height: 32px; background: var(--navy); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .client-pill-icon svg { width: 16px; height: 16px; fill: var(--gold); }
+    .client-pill-text { font-size: 13px; font-weight: 700; color: var(--navy); letter-spacing: 1px; text-transform: uppercase; }
+    .client-divider { width: 1px; height: 28px; background: rgba(13,27,42,0.25); }
+
+    .services-strip { background: var(--green); padding: 1rem 2rem; display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; }
+    .strip-item { color: #c5e8d5; font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 700; display: flex; align-items: center; gap: 6px; }
+    .strip-dot { width: 5px; height: 5px; background: var(--gold); border-radius: 50%; }
+
+    .section { padding: 3.5rem 2rem; }
+    .section-label { text-align: center; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--green); font-weight: 700; margin-bottom: 0.5rem; }
+    .section-title { font-family: 'Playfair Display', serif; text-align: center; font-size: 28px; color: var(--navy); margin-bottom: 0.6rem; line-height: 1.3; }
+    .section-sub { text-align: center; color: var(--text-mid); font-size: 14px; max-width: 520px; margin: 0 auto 2.5rem; line-height: 1.7; }
+
+    .client-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; max-width: 820px; margin: 0 auto 3rem; }
+    .client-card { border-radius: 12px; overflow: hidden; border: 1px solid #e0ddd5; background: var(--white); }
+    .client-card-header { padding: 1.75rem 1.5rem; display: flex; align-items: center; gap: 14px; }
+    .client-card-header.commercial { background: var(--navy); }
+    .client-card-header.residential { background: var(--green); }
+    .client-card-icon { width: 50px; height: 50px; background: var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .client-card-icon svg { width: 24px; height: 24px; fill: var(--navy); }
+    .client-card-header h3 { font-family: 'Playfair Display', serif; color: var(--white); font-size: 20px; }
+    .client-card-header p { color: rgba(255,255,255,0.65); font-size: 12px; margin-top: 2px; }
+    .client-card-body { padding: 1.25rem 1.5rem; }
+    .client-card-body p { font-size: 13px; color: var(--text-mid); line-height: 1.65; margin-bottom: 1rem; }
+    .client-features { list-style: none; }
+    .client-features li { font-size: 13px; color: var(--text-mid); padding: 5px 0; display: flex; align-items: center; gap: 8px; border-bottom: 0.5px solid #f0ece4; }
+    .client-features li:last-child { border-bottom: none; }
+    .client-features li::before { content: ''; width: 7px; height: 7px; background: var(--gold); border-radius: 50%; flex-shrink: 0; }
+
+    .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 1rem; max-width: 820px; margin: 0 auto; }
+    .service-card { background: var(--white); border: 1px solid #e0ddd5; border-radius: 10px; padding: 1.4rem; text-align: center; cursor: pointer; transition: all 0.25s; border-top: 4px solid var(--navy); }
+    .service-card:hover { transform: translateY(-3px); border-top-color: var(--gold); }
+    .svc-icon { width: 46px; height: 46px; background: var(--navy); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 0.9rem; }
+    .svc-icon svg { width: 22px; height: 22px; fill: var(--gold); }
+    .service-card h3 { font-family: 'Playfair Display', serif; font-size: 15px; color: var(--navy); margin-bottom: 0.35rem; }
+    .service-card p { font-size: 12px; color: var(--text-mid); line-height: 1.5; }
+
+    .why-section { background: var(--navy); padding: 3.5rem 2rem; }
+    .why-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1.25rem; max-width: 820px; margin: 0 auto; }
+    .why-card { background: rgba(255,255,255,0.06); border: 1px solid rgba(180,192,224,0.18); border-radius: 10px; padding: 1.4rem; }
+    .why-num { font-family: 'Playfair Display', serif; font-size: 30px; color: var(--gold); font-weight: 700; margin-bottom: 0.2rem; }
+    .why-card h4 { color: var(--lavender-light); font-size: 13px; font-weight: 700; margin-bottom: 0.35rem; letter-spacing: 0.5px; }
+    .why-card p { color: rgba(220,224,240,0.55); font-size: 12px; line-height: 1.5; }
+
+    .cta-band { background: var(--green); padding: 3rem 2rem; text-align: center; }
+    .cta-band h2 { font-family: 'Playfair Display', serif; font-size: 26px; color: var(--white); margin-bottom: 0.6rem; }
+    .cta-band p { color: #c5e8d5; margin-bottom: 1.5rem; font-size: 14px; }
+
+    .page-hero { background: var(--navy); padding: 2.5rem 2rem; text-align: center; border-bottom: 3px solid var(--gold); }
+    .page-hero h1 { font-family: 'Playfair Display', serif; font-size: 34px; color: var(--white); margin-bottom: 0.4rem; }
+    .page-hero p { color: var(--lavender); font-size: 14px; font-weight: 300; }
+
+    .svc-detail-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.4rem; max-width: 860px; margin: 0 auto; padding: 2.5rem 2rem; }
+    .svc-detail-card { background: var(--white); border-radius: 12px; overflow: hidden; border: 1px solid #e0ddd5; transition: transform 0.2s; }
+    .svc-detail-card:hover { transform: translateY(-3px); }
+    .svc-card-header { background: var(--navy); padding: 1.4rem; display: flex; align-items: center; gap: 12px; }
+    .svc-card-header .icon { width: 42px; height: 42px; background: var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .svc-card-header .icon svg { width: 20px; height: 20px; fill: var(--navy); }
+    .svc-card-header h3 { font-family: 'Playfair Display', serif; color: var(--white); font-size: 17px; }
+    .svc-card-body { padding: 1.2rem 1.4rem; }
+    .svc-card-body p { font-size: 13px; color: var(--text-mid); line-height: 1.65; margin-bottom: 0.9rem; }
+    .svc-features { list-style: none; }
+    .svc-features li { font-size: 12px; color: var(--text-mid); padding: 4px 0; display: flex; align-items: center; gap: 7px; }
+    .svc-features li::before { content: ''; width: 7px; height: 7px; background: var(--green-light); border-radius: 50%; flex-shrink: 0; }
+    .client-badge-row { display: flex; gap: 6px; margin-top: 0.75rem; flex-wrap: wrap; }
+    .cbadge { font-size: 10px; font-weight: 700; letter-spacing: 0.5px; padding: 3px 9px; border-radius: 20px; }
+    .cbadge.comm { background: #dce0f0; color: #0d1b2a; }
+    .cbadge.res { background: #c5e8d5; color: #1a3d2e; }
+
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; max-width: 820px; margin: 2.5rem auto; border-radius: 12px; overflow: hidden; border: 1px solid #e0ddd5; }
+    .about-visual { background: var(--navy); padding: 2.5rem 2rem; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+    .about-logo-big { width: 100px; height: 100px; background: white; border-radius: 50%; padding: 5px; margin-bottom: 1.4rem; object-fit: contain; }
+    .about-tagline { font-family: 'Playfair Display', serif; color: var(--gold); font-size: 18px; line-height: 1.4; margin-bottom: 0.8rem; }
+    .about-tag-sub { color: var(--lavender); font-size: 12px; font-style: italic; line-height: 1.6; }
+    .about-text { background: var(--white); padding: 2.2rem; }
+    .about-text h2 { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--navy); margin-bottom: 0.9rem; }
+    .about-text p { font-size: 13px; color: var(--text-mid); line-height: 1.8; margin-bottom: 0.9rem; }
+
+    .serves-section { background: var(--cream); padding: 2.5rem 2rem; }
+    .serves-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; max-width: 820px; margin: 0 auto; }
+    .serves-card { background: var(--white); border-radius: 10px; padding: 1.25rem; border: 1px solid #e0ddd5; }
+    .serves-card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 0.75rem; }
+    .serves-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+    .serves-dot.comm { background: var(--navy); }
+    .serves-dot.res { background: var(--green); }
+    .serves-card h4 { font-family: 'Playfair Display', serif; color: var(--navy); font-size: 15px; }
+    .serves-card p { font-size: 12px; color: var(--text-mid); line-height: 1.5; }
+    .area-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 0.6rem; }
+    .area-tag { background: var(--lavender-light); color: var(--navy); font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 20px; letter-spacing: 0.3px; }
+
+    .values-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(155px, 1fr)); gap: 1rem; max-width: 820px; margin: 0 auto; }
+    .value-card { background: var(--white); border-radius: 10px; padding: 1.2rem; border: 1px solid #e0ddd5; border-left: 4px solid var(--gold); }
+    .value-card h4 { font-family: 'Playfair Display', serif; color: var(--navy); font-size: 14px; margin-bottom: 0.35rem; }
+    .value-card p { font-size: 12px; color: var(--text-mid); line-height: 1.5; }
+
+    .contact-layout { display: grid; grid-template-columns: 1fr 1.4fr; gap: 1.5rem; max-width: 820px; margin: 2.5rem auto; padding: 0 2rem; }
+    .contact-info { background: var(--navy); border-radius: 12px; padding: 2rem; }
+    .contact-info h3 { font-family: 'Playfair Display', serif; font-size: 18px; color: var(--gold); margin-bottom: 1.4rem; }
+    .contact-item { display: flex; gap: 11px; margin-bottom: 1.2rem; align-items: flex-start; }
+    .contact-icon { width: 34px; height: 34px; background: rgba(212,168,75,0.18); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .contact-icon svg { width: 15px; height: 15px; fill: var(--gold); }
+    .contact-item-text { color: var(--lavender-light); font-size: 13px; line-height: 1.6; }
+    .contact-item-text strong { color: var(--white); display: block; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 2px; }
+    .service-areas { margin-top: 1.4rem; padding-top: 1.4rem; border-top: 1px solid rgba(180,192,224,0.18); }
+    .service-areas h4 { color: var(--gold); font-size: 10px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 0.6rem; font-weight: 700; }
+    .contact-form { background: var(--white); border-radius: 12px; padding: 2rem; border: 1px solid #e0ddd5; }
+    .contact-form h3 { font-family: 'Playfair Display', serif; font-size: 18px; color: var(--navy); margin-bottom: 1.2rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+    .form-group { margin-bottom: 0.9rem; }
+    .form-group label { display: block; font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-mid); font-weight: 700; margin-bottom: 5px; }
+    .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 9px 11px; border: 1px solid #d0cec8; border-radius: 6px; font-size: 13px; font-family: 'Lato', sans-serif; color: var(--text-dark); background: #fafaf8; outline: none; transition: border-color 0.2s; }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--navy); background: var(--white); }
+    .form-group textarea { resize: vertical; min-height: 85px; }
+    .submit-btn { width: 100%; background: var(--navy); color: var(--white); border: none; padding: 13px; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; border-radius: 6px; cursor: pointer; font-family: 'Lato', sans-serif; transition: background 0.2s; }
+    .submit-btn:hover { background: var(--green); }
+
+    .footer { background: #060e18; padding: 2.5rem 2rem; text-align: center; }
+    .footer-logo { font-family: 'Playfair Display', serif; color: var(--gold); font-size: 17px; margin-bottom: 0.4rem; }
+    .footer-sub { color: rgba(180,192,224,0.45); font-size: 11px; letter-spacing: 1px; margin-bottom: 1.4rem; }
+    .footer-links { display: flex; justify-content: center; gap: 1.5rem; margin-bottom: 1.4rem; flex-wrap: wrap; }
+    .footer-links a { color: rgba(180,192,224,0.55); font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; text-decoration: none; cursor: pointer; }
+    .footer-links a:hover { color: var(--gold); }
+    .footer-copy { color: rgba(180,192,224,0.28); font-size: 11px; }
+
+    @media (max-width: 600px) {
+      .hero h1 { font-size: 26px; }
+      .about-grid { grid-template-columns: 1fr; }
+      .contact-layout { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .nav-links li a { padding: 0 0.5rem; font-size: 10px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo-area" onclick="showPage('home')">
+    <div class="logo-text">Moonflower<span>Landscaping</span></div>
+  </div>
+  <ul class="nav-links">
+    <li><a id="nav-home" class="active" onclick="showPage('home')">Home</a></li>
+    <li><a id="nav-services" onclick="showPage('services')">Services</a></li>
+    <li><a id="nav-about" onclick="showPage('about')">About</a></li>
+    <li><a id="nav-contact" class="nav-cta" onclick="showPage('contact')">Contact Us</a></li>
+  </ul>
+</nav>
+
+<!-- ===== HOME ===== -->
+<div id="page-home" class="page active">
+  <section class="hero">
+    <div style="text-align:center;max-width:620px">
+      <div class="hero-badge">Memphis, TN · Shelby County · Southaven, MS</div>
+      <h1>Your Property, <em>Transformed</em><br>Under Every Moon</h1>
+      <p>Professional landscaping for commercial properties and residential homes — meticulous care, every single visit.</p>
+      <div class="hero-btns">
+        <button class="btn-primary" onclick="showPage('contact')">Get a Free Quote</button>
+        <button class="btn-outline" onclick="showPage('services')">View Our Services</button>
+      </div>
+    </div>
+  </section>
+
+  <div class="client-band">
+    <div class="client-pill">
+      <div class="client-pill-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 7V3H2v18h20V7H12zM6 19H4v-2h2v2zm0-4H4v-2h2v2zm0-4H4V9h2v2zm0-4H4V5h2v2zm4 12H8v-2h2v2zm0-4H8v-2h2v2zm0-4H8V9h2v2zm0-4H8V5h2v2zm10 12h-8v-2h2v-2h-2v-2h2v-2h-2V9h8v10zm-2-8h-2v2h2v-2zm0 4h-2v2h2v-2z"/></svg>
+      </div>
+      <div class="client-pill-text">Commercial Properties</div>
+    </div>
+    <div class="client-divider"></div>
+    <div class="client-pill">
+      <div class="client-pill-icon">
+        <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+      </div>
+      <div class="client-pill-text">Residential Homes</div>
+    </div>
+  </div>
+
+  <div class="services-strip">
+    <div class="strip-item"><div class="strip-dot"></div>Lawn Mowing</div>
+    <div class="strip-item"><div class="strip-dot"></div>Edging</div>
+    <div class="strip-item"><div class="strip-dot"></div>Tree Trimming</div>
+    <div class="strip-item"><div class="strip-dot"></div>Flower Beds</div>
+  </div>
+
+  <section class="section" style="background:var(--cream)">
+    <div class="section-label">Who We Serve</div>
+    <h2 class="section-title">Built for Both Worlds</h2>
+    <p class="section-sub">Whether you manage a commercial complex or take pride in your home's curb appeal, Moonflower delivers the same standard of excellence.</p>
+    <div class="client-grid">
+      <div class="client-card">
+        <div class="client-card-header commercial">
+          <div class="client-card-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 7V3H2v18h20V7H12zM6 19H4v-2h2v2zm0-4H4v-2h2v2zm0-4H4V9h2v2zm0-4H4V5h2v2zm4 12H8v-2h2v2zm0-4H8v-2h2v2zm0-4H8V9h2v2zm0-4H8V5h2v2zm10 12h-8v-2h2v-2h-2v-2h2v-2h-2V9h8v10zm-2-8h-2v2h2v-2zm0 4h-2v2h2v-2z"/></svg>
+          </div>
+          <div>
+            <h3>Commercial</h3>
+            <p>Offices, retail &amp; complexes</p>
+          </div>
+        </div>
+        <div class="client-card-body">
+          <p>We keep commercial properties looking sharp and professional — because your exterior is your first impression to every client and tenant.</p>
+          <ul class="client-features">
+            <li>Office parks &amp; corporate campuses</li>
+            <li>Retail strip centers &amp; shopping plazas</li>
+            <li>HOA &amp; apartment communities</li>
+            <li>Flexible scheduled maintenance contracts</li>
+            <li>Seasonal refresh &amp; holiday displays</li>
+          </ul>
+        </div>
+      </div>
+      <div class="client-card">
+        <div class="client-card-header residential">
+          <div class="client-card-icon">
+            <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          </div>
+          <div>
+            <h3>Residential</h3>
+            <p>Homes &amp; private estates</p>
+          </div>
+        </div>
+        <div class="client-card-body">
+          <p>Your home deserves a yard that turns heads. We provide personalized care that makes every lawn a neighborhood standout.</p>
+          <ul class="client-features">
+            <li>Single-family homes &amp; townhomes</li>
+            <li>Bi-weekly &amp; weekly service plans</li>
+            <li>Front &amp; backyard complete care</li>
+            <li>Seasonal planting &amp; flower bed design</li>
+            <li>One-time cleanup &amp; refresh visits</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-label">Our Services</div>
+    <h2 class="section-title">What We Do</h2>
+    <p class="section-sub">Every service available for both commercial and residential clients across the Memphis metro area.</p>
+    <div class="services-grid">
+      <div class="service-card" onclick="showPage('services')">
+        <div class="svc-icon"><svg viewBox="0 0 24 24"><path d="M17 8C8 10 5.9 16.17 3.82 21h2.6c.5-2 2-3.5 4.18-4.5L17 8z"/></svg></div>
+        <h3>Lawn Mowing</h3>
+        <p>Consistent cuts with clean, healthy results every time.</p>
+      </div>
+      <div class="service-card" onclick="showPage('services')">
+        <div class="svc-icon"><svg viewBox="0 0 24 24"><path d="M6.5 10h-2v10h2V10zm6 0h-2v10h2V10zm8.5 12H2v2h19v-2zm-2.5-12h-2v10h2V10zM11.5 1L2 6v2h19V6z"/></svg></div>
+        <h3>Edging</h3>
+        <p>Crisp borders along driveways, walks, and beds.</p>
+      </div>
+      <div class="service-card" onclick="showPage('services')">
+        <div class="svc-icon"><svg viewBox="0 0 24 24"><path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/></svg></div>
+        <h3>Tree Trimming</h3>
+        <p>Expert pruning for health, safety, and beauty.</p>
+      </div>
+      <div class="service-card" onclick="showPage('services')">
+        <div class="svc-icon"><svg viewBox="0 0 24 24"><path d="M12 22c4.97 0 9-4.03 9-9-4.97 0-9 4.03-9 9zM5.6 10.25c0 1.38 1.12 2.5 2.5 2.5.53 0 1.01-.16 1.42-.44l-.02.19c0 1.38 1.12 2.5 2.5 2.5s2.5-1.12 2.5-2.5l-.02-.19c.4.28.89.44 1.42.44 1.38 0 2.5-1.12 2.5-2.5 0-1-.59-1.85-1.43-2.25.84-.4 1.43-1.25 1.43-2.25 0-1.38-1.12-2.5-2.5-2.5-.53 0-1.01.16-1.42.44l.02-.19C14.5 2.12 13.38 1 12 1S9.5 2.12 9.5 3.5l.02.19c-.4-.28-.89-.44-1.42-.44-1.38 0-2.5 1.12-2.5 2.5 0 1 .59 1.85 1.43 2.25-.84.4-1.43 1.25-1.43 2.25zM12 5.5c1.38 0 2.5 1.12 2.5 2.5s-1.12 2.5-2.5 2.5S9.5 9.38 9.5 8s1.12-2.5 2.5-2.5z"/></svg></div>
+        <h3>Flower Beds</h3>
+        <p>Seasonal planting, mulching &amp; bed maintenance.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="why-section">
+    <div class="section-label" style="color:var(--gold)">Why Moonflower</div>
+    <h2 class="section-title" style="color:var(--white);margin-bottom:2rem">Rooted in Excellence</h2>
+    <div class="why-grid">
+      <div class="why-card">
+        <div class="why-num">5★</div>
+        <h4>Top-Rated Service</h4>
+        <p>Consistently praised by commercial managers and homeowners alike across the Memphis metro.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-num">2-in-1</div>
+        <h4>Comm. &amp; Residential</h4>
+        <p>One trusted team for all your properties — business and home — under one relationship.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-num">Local</div>
+        <h4>Memphis Rooted</h4>
+        <p>Proudly serving Memphis, Shelby County, Southaven, MS and the surrounding communities.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-num">100%</div>
+        <h4>Satisfaction Promise</h4>
+        <p>We don't leave until the job meets your standards — and our own high bar.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-band">
+    <h2>Ready for a Property That Stands Out?</h2>
+    <p>Commercial or residential — get your free estimate today, no obligation.</p>
+    <button class="btn-primary" onclick="showPage('contact')">Schedule a Free Consultation</button>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-logo">Moonflower Landscaping</div>
+    <div class="footer-sub">Memphis, TN · Shelby County · Southaven, MS &amp; Surrounding Areas · Licensed &amp; Insured</div>
+    <div class="footer-links">
+      <a onclick="showPage('home')">Home</a>
+      <a onclick="showPage('services')">Services</a>
+      <a onclick="showPage('about')">About</a>
+      <a onclick="showPage('contact')">Contact</a>
+    </div>
+    <div class="footer-copy">© 2025 Moonflower Landscaping. All rights reserved.</div>
+  </footer>
+</div>
+
+<!-- ===== SERVICES PAGE ===== -->
+<div id="page-services" class="page">
+  <div class="page-hero">
+    <h1>Our Services</h1>
+    <p>Available for commercial properties &amp; residential homes across the Memphis metro area</p>
+  </div>
+
+  <div style="background:var(--cream);padding:2rem 2rem 0;text-align:center">
+    <div class="section-label">Who We Serve</div>
+    <h2 class="section-title" style="margin-bottom:0.4rem">Commercial &amp; Residential</h2>
+    <p class="section-sub">Every service below is available to both business owners and homeowners throughout Memphis, Shelby County, and Southaven, MS.</p>
+  </div>
+
+  <div class="svc-detail-grid" style="background:var(--cream)">
+    <div class="svc-detail-card">
+      <div class="svc-card-header">
+        <div class="icon"><svg viewBox="0 0 24 24"><path d="M17 8C8 10 5.9 16.17 3.82 21h2.6c.5-2 2-3.5 4.18-4.5L17 8z"/></svg></div>
+        <h3>Lawn Mowing</h3>
+      </div>
+      <div class="svc-card-body">
+        <p>A well-maintained lawn is the backbone of any great-looking property. We offer flexible recurring schedules for both large commercial grounds and residential yards.</p>
+        <ul class="svc-features">
+          <li>Weekly &amp; bi-weekly scheduling</li>
+          <li>Bagging or mulching options</li>
+          <li>Full cleanup after every cut</li>
+          <li>Seasonal blade-height adjustment</li>
+        </ul>
+        <div class="client-badge-row">
+          <span class="cbadge comm">Commercial</span>
+          <span class="cbadge res">Residential</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="svc-detail-card">
+      <div class="svc-card-header">
+        <div class="icon"><svg viewBox="0 0 24 24"><path d="M6.5 10h-2v10h2V10zm6 0h-2v10h2V10zm8.5 12H2v2h19v-2zm-2.5-12h-2v10h2V10zM11.5 1L2 6v2h19V6z"/></svg></div>
+        <h3>Edging</h3>
+      </div>
+      <div class="svc-card-body">
+        <p>Precise, clean edges make any property look intentional and polished. We edge along driveways, sidewalks, curbs, and bed borders for a sharp finished look.</p>
+        <ul class="svc-features">
+          <li>Driveway &amp; sidewalk borders</li>
+          <li>Curb &amp; road-edge definition</li>
+          <li>Flower bed perimeter edging</li>
+          <li>Complements every mow visit</li>
+        </ul>
+        <div class="client-badge-row">
+          <span class="cbadge comm">Commercial</span>
+          <span class="cbadge res">Residential</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="svc-detail-card">
+      <div class="svc-card-header">
+        <div class="icon"><svg viewBox="0 0 24 24"><path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/></svg></div>
+        <h3>Tree Trimming</h3>
+      </div>
+      <div class="svc-card-body">
+        <p>Overgrown or hazardous trees are a liability. Our expert trimming improves tree health, removes danger zones, and keeps your canopy looking shaped and intentional.</p>
+        <ul class="svc-features">
+          <li>Canopy shaping &amp; thinning</li>
+          <li>Dead branch &amp; hazard removal</li>
+          <li>Clearance trimming from structures</li>
+          <li>Debris haul-away included</li>
+        </ul>
+        <div class="client-badge-row">
+          <span class="cbadge comm">Commercial</span>
+          <span class="cbadge res">Residential</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="svc-detail-card">
+      <div class="svc-card-header">
+        <div class="icon"><svg viewBox="0 0 24 24"><path d="M12 22c4.97 0 9-4.03 9-9-4.97 0-9 4.03-9 9zM5.6 10.25c0 1.38 1.12 2.5 2.5 2.5.53 0 1.01-.16 1.42-.44l-.02.19c0 1.38 1.12 2.5 2.5 2.5s2.5-1.12 2.5-2.5l-.02-.19c.4.28.89.44 1.42.44 1.38 0 2.5-1.12 2.5-2.5 0-1-.59-1.85-1.43-2.25.84-.4 1.43-1.25 1.43-2.25 0-1.38-1.12-2.5-2.5-2.5-.53 0-1.01.16-1.42.44l.02-.19C14.5 2.12 13.38 1 12 1S9.5 2.12 9.5 3.5l.02.19c-.4-.28-.89-.44-1.42-.44-1.38 0-2.5 1.12-2.5 2.5 0 1 .59 1.85 1.43 2.25-.84.4-1.43 1.25-1.43 2.25zM12 5.5c1.38 0 2.5 1.12 2.5 2.5s-1.12 2.5-2.5 2.5S9.5 9.38 9.5 8s1.12-2.5 2.5-2.5z"/></svg></div>
+        <h3>Flower Beds</h3>
+      </div>
+      <div class="svc-card-body">
+        <p>Vibrant, well-maintained flower beds add color and life to any property entrance, walkway, or common area. We handle design, planting, and ongoing care.</p>
+        <ul class="svc-features">
+          <li>Seasonal color planting</li>
+          <li>Mulch installation &amp; refresh</li>
+          <li>Weed control &amp; bed maintenance</li>
+          <li>Entrance &amp; common area design</li>
+        </ul>
+        <div class="client-badge-row">
+          <span class="cbadge comm">Commercial</span>
+          <span class="cbadge res">Residential</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section class="cta-band">
+    <h2>Ready to Get Started?</h2>
+    <p>Serving Memphis, Shelby County, Southaven, MS and surrounding areas.</p>
+    <button class="btn-primary" onclick="showPage('contact')">Request a Free Quote</button>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-logo">Moonflower Landscaping</div>
+    <div class="footer-sub">Memphis, TN · Shelby County · Southaven, MS &amp; Surrounding Areas</div>
+    <div class="footer-links">
+      <a onclick="showPage('home')">Home</a>
+      <a onclick="showPage('services')">Services</a>
+      <a onclick="showPage('about')">About</a>
+      <a onclick="showPage('contact')">Contact</a>
+    </div>
+    <div class="footer-copy">© 2025 Moonflower Landscaping. All rights reserved.</div>
+  </footer>
+</div>
+
+<!-- ===== ABOUT PAGE ===== -->
+<div id="page-about" class="page">
+  <div class="page-hero">
+    <h1>About Moonflower</h1>
+    <p>Memphis-based landscaping with a passion for beautiful, well-kept properties</p>
+  </div>
+
+  <div style="padding:0 2rem">
+    <div class="about-grid">
+      <div class="about-visual">
+        <div class="about-tagline">"Beauty grows where care is given."</div>
+        <div class="about-tag-sub">Serving the Memphis metro with pride — from Shelby County to Southaven, MS</div>
+      </div>
+      <div class="about-text">
+        <h2>Our Story</h2>
+        <p>Moonflower Landscaping was built on one simple belief: every property — commercial or residential — deserves to look its absolute best. We started right here in Memphis, Tennessee, growing from a passion for outdoor spaces into a full-service landscaping company trusted by property managers and homeowners across the region.</p>
+        <p>We understand that your lawn and landscape are extensions of who you are. For business owners, it's your first impression. For homeowners, it's your sanctuary. That's why we bring the same standard of excellence to every property, every visit.</p>
+        <p>From Shelby County office parks to Southaven neighborhoods, Moonflower is the team Memphis trusts to show up, work hard, and deliver results you'll be proud of.</p>
+      </div>
+    </div>
+  </div>
+
+  <section class="serves-section">
+    <div class="section-label">Who We Serve</div>
+    <h2 class="section-title">Commercial &amp; Residential Expertise</h2>
+    <p class="section-sub">Two very different needs — one dedicated team with the experience to handle both.</p>
+    <div class="serves-grid">
+      <div class="serves-card">
+        <div class="serves-card-header">
+          <div class="serves-dot comm"></div>
+          <h4>Commercial Clients</h4>
+        </div>
+        <p>We partner with property managers, business owners, and HOAs who need reliable, professional maintenance on a schedule they can count on.</p>
+      </div>
+      <div class="serves-card">
+        <div class="serves-card-header">
+          <div class="serves-dot res"></div>
+          <h4>Residential Clients</h4>
+        </div>
+        <p>Homeowners throughout Memphis and Southaven trust us for personalized service that keeps their yard the envy of the neighborhood year-round.</p>
+      </div>
+      <div class="serves-card">
+        <div class="serves-card-header">
+          <div class="serves-dot" style="background:var(--gold)"></div>
+          <h4>Service Areas</h4>
+        </div>
+        <p>We proudly serve:</p>
+        <div class="area-tags">
+          <span class="area-tag">Memphis, TN</span>
+          <span class="area-tag">Shelby County</span>
+          <span class="area-tag">Southaven, MS</span>
+          <span class="area-tag">Surrounding Areas</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="background:var(--white)">
+    <div class="section-label">Our Values</div>
+    <h2 class="section-title">What We Stand For</h2>
+    <p class="section-sub" style="margin-bottom:2rem">The principles that drive every job we take on.</p>
+    <div class="values-grid">
+      <div class="value-card">
+        <h4>Reliability</h4>
+        <p>We show up when we say we will — rain or shine. Your schedule matters to us.</p>
+      </div>
+      <div class="value-card">
+        <h4>Attention to Detail</h4>
+        <p>We sweat the small stuff so you don't have to. Every edge. Every bed. Every time.</p>
+      </div>
+      <div class="value-card">
+        <h4>Community Pride</h4>
+        <p>Memphis is home. We invest in making our community look and feel its best.</p>
+      </div>
+      <div class="value-card">
+        <h4>Integrity</h4>
+        <p>Honest pricing, clear communication, and work that speaks for itself.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-band">
+    <h2>Let's Work Together</h2>
+    <p>Commercial property or your family home — we'd love to be your landscaping team.</p>
+    <button class="btn-primary" onclick="showPage('contact')">Get Your Free Quote</button>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-logo">Moonflower Landscaping</div>
+    <div class="footer-sub">Memphis, TN · Shelby County · Southaven, MS &amp; Surrounding Areas</div>
+    <div class="footer-links">
+      <a onclick="showPage('home')">Home</a>
+      <a onclick="showPage('services')">Services</a>
+      <a onclick="showPage('about')">About</a>
+      <a onclick="showPage('contact')">Contact</a>
+    </div>
+    <div class="footer-copy">© 2025 Moonflower Landscaping. All rights reserved.</div>
+  </footer>
+</div>
+
+<!-- ===== CONTACT PAGE ===== -->
+<div id="page-contact" class="page">
+  <div class="page-hero">
+    <h1>Contact Us</h1>
+    <p>Commercial or residential — let's talk about your property</p>
+  </div>
+
+  <div class="contact-layout">
+    <div class="contact-info">
+      <h3>Get In Touch</h3>
+      <div class="contact-item">
+        <div class="contact-icon"><svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg></div>
+        <div class="contact-item-text"><strong>Phone</strong>(901) 555-0192</div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></div>
+        <div class="contact-item-text"><strong>Email</strong>hello@moonflowerlandscaping.com</div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg></div>
+        <div class="contact-item-text"><strong>Based In</strong>Memphis, Tennessee</div>
+      </div>
+      <div class="service-areas">
+        <h4>Service Areas</h4>
+        <div class="area-tags">
+          <span class="area-tag">Memphis, TN</span>
+          <span class="area-tag">Shelby County</span>
+          <span class="area-tag">Southaven, MS</span>
+          <span class="area-tag">Surrounding Areas</span>
+        </div>
+      </div>
+      <div style="margin-top:1.2rem;padding-top:1.2rem;border-top:1px solid rgba(180,192,224,0.18)">
+        <h4 style="color:var(--gold);font-size:10px;letter-spacing:2px;text-transform:uppercase;margin-bottom:0.5rem;font-weight:700">We Serve</h4>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <div style="display:flex;align-items:center;gap:8px;color:var(--lavender-light);font-size:12px">
+            <div style="width:8px;height:8px;background:var(--navy);border-radius:50%;border:2px solid var(--lavender)"></div>
+            Commercial Properties
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;color:var(--lavender-light);font-size:12px">
+            <div style="width:8px;height:8px;background:var(--green-light);border-radius:50%"></div>
+            Residential Homes
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="contact-form">
+      <h3>Request a Free Quote</h3>
+      <div class="form-row">
+        <div class="form-group"><label>First Name</label><input type="text" placeholder="Jane"/></div>
+        <div class="form-group"><label>Last Name</label><input type="text" placeholder="Smith"/></div>
+      </div>
+      <div class="form-group"><label>Email Address</label><input type="email" placeholder="jane@example.com"/></div>
+      <div class="form-group"><label>Phone Number</label><input type="tel" placeholder="(901) 555-0000"/></div>
+      <div class="form-group">
+        <label>Client Type</label>
+        <select>
+          <option value="">Select one...</option>
+          <option>Commercial Property</option>
+          <option>Residential Home</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Service Needed</label>
+        <select>
+          <option value="">Select a service...</option>
+          <option>Lawn Mowing</option>
+          <option>Edging</option>
+          <option>Tree Trimming</option>
+          <option>Flower Beds</option>
+          <option>Multiple Services</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Property Address / Area</label>
+        <input type="text" placeholder="Memphis, TN or Southaven, MS"/>
+      </div>
+      <div class="form-group">
+        <label>Tell Us About Your Property</label>
+        <textarea placeholder="Describe your property size, current condition, or any specific needs..."></textarea>
+      </div>
+      <button class="submit-btn">Send My Quote Request</button>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-logo">Moonflower Landscaping</div>
+    <div class="footer-sub">Memphis, TN · Shelby County · Southaven, MS &amp; Surrounding Areas · Licensed &amp; Insured</div>
+    <div class="footer-links">
+      <a onclick="showPage('home')">Home</a>
+      <a onclick="showPage('services')">Services</a>
+      <a onclick="showPage('about')">About</a>
+      <a onclick="showPage('contact')">Contact</a>
+    </div>
+    <div class="footer-copy">© 2025 Moonflower Landscaping. All rights reserved.</div>
+  </footer>
+</div>
+
+<script>
+  function showPage(id) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-links li a').forEach(a => a.classList.remove('active'));
+    document.getElementById('page-' + id).classList.add('active');
+    const navEl = document.getElementById('nav-' + id);
+    if (navEl) navEl.classList.add('active');
+    window.scrollTo(0, 0);
+  }
+</script>
+
+</body>
+</html>
